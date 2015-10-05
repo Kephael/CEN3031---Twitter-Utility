@@ -30,12 +30,6 @@ public class test {
 		// Post on twitter time line
 		Status stat = tw.updateStatus("Welcome to Twiiter");
 		System.out.println("Twitter updated");
-		
-<<<<<<< HEAD
-
-=======
-		// test
->>>>>>> branch 'test' of https://github.com/Kephael/CEN3031
 	}
 
 }
