@@ -14,10 +14,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
+import gui.MainPanel;
+
 public class test {
 
 	public static void main(String[] args) throws TwitterException {
-		
+		MainPanel panel = new MainPanel();
+		panel.setVisible(true);
 	}
 
 }
