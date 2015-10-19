@@ -20,10 +20,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.TextArea;
 import javax.swing.SwingConstants;
+import java.awt.Component;
+import javax.swing.Box;
+import java.awt.Panel;
 
 public class MainPanel extends JFrame {
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField tweetField;
+	private JTextField searchField;
 
 	/**
 	 * Launch the application.
@@ -62,28 +65,36 @@ public class MainPanel extends JFrame {
 		});
 		mnConfigurableOptions.add(apiDetails);
 		
-		JButton btnNewButton_1 = new JButton("Tweet Encryption");
-		mnConfigurableOptions.add(btnNewButton_1);
+		JButton tweetEncryption = new JButton("Tweet Encryption");
+		mnConfigurableOptions.add(tweetEncryption);
 		getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
 		
 		JLabel lblTweetMessage = new JLabel("Tweet Message:");
 		lblTweetMessage.setHorizontalAlignment(SwingConstants.LEFT);
 		getContentPane().add(lblTweetMessage, "cell 0 3,alignx left");
 		
-		textField = new JTextField();
-		getContentPane().add(textField, "cell 1 3,alignx left");
-		textField.setColumns(20);
+		tweetField = new JTextField();
+		getContentPane().add(tweetField, "cell 1 3,alignx left");
+		tweetField.setColumns(20);
 		
-		TextArea textArea_1 = new TextArea();
-		getContentPane().add(textArea_1, "cell 1 2,alignx right");
+		TextArea infoField = new TextArea();
+		getContentPane().add(infoField, "cell 1 2,alignx right");
 		
 		JLabel lblSearchLabel = new JLabel("Search:");
 		lblSearchLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblSearchLabel, "cell 0 4,alignx left");
 		
-		textField_1 = new JTextField();
-		getContentPane().add(textField_1, "cell 1 4,alignx left");
-		textField_1.setColumns(20);
+		searchField = new JTextField();
+		getContentPane().add(searchField, "flowx,cell 1 4,alignx left");
+		searchField.setColumns(20);
+		
+		JButton locationMap = new JButton("Map Tweet Location");
+		locationMap.setToolTipText("Maps a user's location for tweet which matched search query");
+		locationMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		getContentPane().add(locationMap, "cell 1 5,alignx right,growy");
 	}
 
 }
