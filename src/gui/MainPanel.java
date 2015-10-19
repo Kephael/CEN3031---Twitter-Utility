@@ -69,6 +69,10 @@ public class MainPanel extends JFrame {
 		mnConfigurableOptions.add(tweetEncryption);
 		getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
 		
+		JLabel lblSearchResults = new JLabel("Search Results:");
+		lblSearchResults.setHorizontalAlignment(SwingConstants.CENTER);
+		getContentPane().add(lblSearchResults, "cell 1 1,alignx center");
+		
 		JLabel lblTweetMessage = new JLabel("Tweet Message:");
 		lblTweetMessage.setHorizontalAlignment(SwingConstants.LEFT);
 		getContentPane().add(lblTweetMessage, "cell 0 3,alignx left");
@@ -78,6 +82,7 @@ public class MainPanel extends JFrame {
 		tweetField.setColumns(20);
 		
 		TextArea infoField = new TextArea();
+		infoField.setEditable(false);
 		getContentPane().add(infoField, "cell 1 2,alignx right");
 		
 		JLabel lblSearchLabel = new JLabel("Search:");
