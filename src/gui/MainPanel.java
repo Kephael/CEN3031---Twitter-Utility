@@ -19,6 +19,7 @@ import javax.swing.JSeparator;
 import java.awt.Panel;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JMenuItem;
 
 public class MainPanel extends JFrame {
 	private JTextField tweetField;
@@ -38,15 +39,13 @@ public class MainPanel extends JFrame {
 		JMenu mnConfigurableOptions = new JMenu("Configurable Options");
 		menuBar.add(mnConfigurableOptions);
 		
-		JButton apiDetails = new JButton("API Settings");
-		apiDetails.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		mnConfigurableOptions.add(apiDetails);
+		JMenuItem mntmApiSettings = new JMenuItem("API Settings");
+		mntmApiSettings.setHorizontalAlignment(SwingConstants.LEFT);
+		mnConfigurableOptions.add(mntmApiSettings);
 		
-		JButton tweetEncryption = new JButton("Tweet Encryption");
-		mnConfigurableOptions.add(tweetEncryption);
+		JMenuItem mntmTweetEncryption = new JMenuItem("Tweet Encryption");
+		mntmTweetEncryption.setHorizontalAlignment(SwingConstants.LEFT);
+		mnConfigurableOptions.add(mntmTweetEncryption);
 		getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
 		
 		Component horizontalStrut = Box.createHorizontalStrut(50);
