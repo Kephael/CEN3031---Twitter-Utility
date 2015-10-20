@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -14,20 +12,16 @@ import javax.swing.JTextField;
 import java.awt.TextArea;
 import javax.swing.SwingConstants;
 import javax.swing.JSlider;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import java.awt.Panel;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JMenuItem;
 
 public class MainPanel extends JFrame {
+	private static final long serialVersionUID = -6962793798987727988L;
 	private JTextField tweetField;
 	private JTextField searchField;
 
-	/**
-	 * Create the frame.
-	 */
+	 // Creates the frame.
 	public MainPanel() {
 		setTitle("Twitter API Scraper");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
