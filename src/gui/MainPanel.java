@@ -13,11 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.TextArea;
 import javax.swing.SwingConstants;
+import javax.swing.JSlider;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import java.awt.Panel;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class MainPanel extends JFrame {
 	private JTextField tweetField;
 	private JTextField searchField;
-
 
 	/**
 	 * Create the frame.
@@ -25,7 +30,7 @@ public class MainPanel extends JFrame {
 	public MainPanel() {
 		setTitle("Twitter API Scraper");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(800, 600, 851, 360);
+		setBounds(800, 600, 853, 370);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -44,6 +49,9 @@ public class MainPanel extends JFrame {
 		mnConfigurableOptions.add(tweetEncryption);
 		getContentPane().setLayout(new MigLayout("", "[][grow]", "[][][][][][][]"));
 		
+		Component horizontalStrut = Box.createHorizontalStrut(50);
+		getContentPane().add(horizontalStrut, "flowx,cell 1 1,alignx center");
+		
 		JLabel lblSearchResults = new JLabel("Search Results:");
 		lblSearchResults.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblSearchResults, "cell 1 1,alignx center");
@@ -53,8 +61,8 @@ public class MainPanel extends JFrame {
 		getContentPane().add(lblTweetMessage, "cell 0 3,alignx left");
 		
 		tweetField = new JTextField();
-		getContentPane().add(tweetField, "cell 1 3,alignx left");
-		tweetField.setColumns(20);
+		getContentPane().add(tweetField, "flowx,cell 1 3,alignx left");
+		tweetField.setColumns(15);
 		
 		TextArea infoField = new TextArea();
 		infoField.setEditable(false);
@@ -66,15 +74,38 @@ public class MainPanel extends JFrame {
 		
 		searchField = new JTextField();
 		getContentPane().add(searchField, "flowx,cell 1 4,alignx left");
-		searchField.setColumns(20);
+		searchField.setColumns(15);
 		
-		JButton locationMap = new JButton("Map Tweet Location");
+		JLabel lblMaximumSearchResults = new JLabel("Maximum Search Results:");
+		getContentPane().add(lblMaximumSearchResults, "cell 0 5");
+		
+		JSlider searchResultsNumberSlider = new JSlider();
+		searchResultsNumberSlider.setValue(100);
+		searchResultsNumberSlider.setMajorTickSpacing(50);
+		searchResultsNumberSlider.setMaximum(250);
+		searchResultsNumberSlider.setToolTipText("Maximum number of search results");
+		searchResultsNumberSlider.setSnapToTicks(true);
+		searchResultsNumberSlider.setPaintLabels(true);
+		searchResultsNumberSlider.setPaintTicks(true);
+		getContentPane().add(searchResultsNumberSlider, "flowx,cell 1 5");
+		
+		JButton btnSaveSearchResults = new JButton("Save Search Results");
+		btnSaveSearchResults.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		
+		Component horizontalStrutTweetMessage = Box.createHorizontalStrut(185);
+		getContentPane().add(horizontalStrutTweetMessage, "cell 1 3,alignx left");
+		getContentPane().add(btnSaveSearchResults, "cell 1 3,alignx right");
+		
+		JButton locationMap = new JButton("Map Tweet Locations");
 		locationMap.setToolTipText("Maps a user's location for tweet which matched search query");
 		locationMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		getContentPane().add(locationMap, "cell 1 5,alignx right,growy");
+		getContentPane().add(locationMap, "cell 1 3,alignx right");
 	}
 
 }
