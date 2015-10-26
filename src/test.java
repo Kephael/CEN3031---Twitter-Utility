@@ -14,12 +14,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
-import gui.MainPanel;
+import gui.MainFrame;
 
 public class test {
 
 	public static void main(String[] args) throws TwitterException {
-		MainPanel panel = new MainPanel();
+		MainFrame panel = new MainFrame();
 		panel.setVisible(true);
 		panel.setResizable(false);
 	}
