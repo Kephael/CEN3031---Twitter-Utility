@@ -19,7 +19,19 @@ public class UserCredentials extends JPanel {
 	 * Create the panel.
 	 */
 	public UserCredentials() {
-		setLayout(new GridLayout(3, 2, 0, 0));
+		setLayout(new GridLayout(5, 2, 0, 10));
+		
+		JLabel label_3 = new JLabel("");
+		add(label_3);
+		
+		JLabel label_2 = new JLabel("");
+		add(label_2);
+		
+		JLabel label = new JLabel("");
+		add(label);
+		
+		JLabel label_1 = new JLabel("");
+		add(label_1);
 		
 		JLabel lblConsumerKeyapi = new JLabel("<html>Consumer Key <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(API Key):</html>");
 		lblConsumerKeyapi.setHorizontalAlignment(SwingConstants.CENTER);
