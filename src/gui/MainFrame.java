@@ -33,6 +33,16 @@ public class MainFrame extends JFrame {
 		menuBar.add(mnConfigurableOptions);
 
 		JMenuItem mntmApiSettings = new JMenuItem("API Settings");
+		mntmApiSettings.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				getContentPane().removeAll(); // removes existing panel
+				revalidate();
+				getContentPane().add(new UserCredentials()); // adds new user credentials panel
+				revalidate();
+				repaint();
+			}
+		});
 		mntmApiSettings.setHorizontalAlignment(SwingConstants.LEFT);
 		mnConfigurableOptions.add(mntmApiSettings);
 
@@ -42,10 +52,9 @@ public class MainFrame extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				getContentPane().removeAll(); // removes existing panel
 				revalidate();
-				getContentPane().add(new TweetEncryptionPanel()); // adds new panel
+				getContentPane().add(new TweetEncryptionPanel()); // adds new tweet encryption panel
 				revalidate();
 				repaint();
-				System.out.println("clicked");
 			}
 		});
 		mnConfigurableOptions.add(mntmTweetEncryption);
