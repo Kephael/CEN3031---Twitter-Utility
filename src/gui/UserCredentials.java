@@ -33,7 +33,7 @@ public class UserCredentials extends JPanel {
 		JLabel label_1 = new JLabel("");
 		add(label_1);
 		
-		JLabel lblConsumerKeyapi = new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Access Token <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Oath Key):</html>");
+		JLabel lblConsumerKeyapi = new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Access Token <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(OAuth Key):</html>");
 		lblConsumerKeyapi.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConsumerKeyapi.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(lblConsumerKeyapi);
@@ -42,7 +42,7 @@ public class UserCredentials extends JPanel {
 		consumerKey.setColumns(10);
 		add(consumerKey);
 		
-		JLabel lblConsumerSecretapi = new JLabel("<html>Access Token Secret <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Oath Password):</html>");
+		JLabel lblConsumerSecretapi = new JLabel("<html>&nbsp;&nbsp;Access Token Secret <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(OAuth Password):</html>");
 		lblConsumerSecretapi.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConsumerSecretapi.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(lblConsumerSecretapi);
