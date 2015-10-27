@@ -87,7 +87,6 @@ public class TweetEncryptionPanel extends JPanel {
 				add(new MainControls()); // adds new panel
 				revalidate();
 				repaint();
-				System.out.println("clicked");
 			}
 		});
 		add(btnApply);

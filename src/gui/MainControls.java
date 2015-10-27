@@ -2,13 +2,7 @@ package gui;
 
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.TextArea;
