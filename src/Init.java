@@ -16,10 +16,11 @@ import java.util.Properties;
 
 import gui.MainFrame;
 
-public class test {
-
+public class Init {
+	
 	public static void main(String[] args) throws TwitterException {
 		MainFrame panel = new MainFrame();
+		//TODO: Automatically load saved API and OAuth details
 		panel.setVisible(true);
 		panel.setResizable(false);
 	}
