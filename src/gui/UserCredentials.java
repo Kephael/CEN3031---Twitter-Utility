@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
+import java.awt.Color;
 
 public class UserCredentials extends JPanel {
 	private JTextField OAuthKey;
@@ -40,8 +41,9 @@ public class UserCredentials extends JPanel {
 		JLabel label = new JLabel("");
 		add(label);
 
-		JLabel label_1 = new JLabel("");
-		add(label_1);
+		JLabel lblError = new JLabel("");
+		lblError.setForeground(Color.RED);
+		add(lblError);
 
 		JLabel lblConsumerKeyApi = new JLabel("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consumer Key <br/>"
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(API Key):</html>");
@@ -80,49 +82,59 @@ public class UserCredentials extends JPanel {
 		accessTokenSecret = new JPasswordField();
 		accessTokenSecret.setColumns(10);
 		add(accessTokenSecret);
-
-		JLabel label_6 = new JLabel("");
-		add(label_6);
-
-		JButton applyBtn = new JButton("Apply");
-		applyBtn.addMouseListener(new MouseAdapter() {
+		
+				JButton applyBtn = new JButton("Apply");
+				applyBtn.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent e) {
+						if (consumerSecretPassword.getPassword().length > 0 && OAuthKey.getText().length() > 0 && accessTokenSecret.getPassword().length > 0 && accessToken.getText().length() > 0) { // checks there are inputs
+							String password = "";
+							for (char x : consumerSecretPassword.getPassword()){
+								password += x; // goes through array concatenating characters to String
+							}
+							String applicationPassword = "";
+							for (char x : accessTokenSecret.getPassword()){
+								applicationPassword += x;
+							}
+							ConfigurationBuilder builder = new ConfigurationBuilder();
+							builder.setOAuthConsumerKey(OAuthKey.getText());
+							builder.setOAuthConsumerSecret(password);
+							builder.setOAuthAccessToken(accessToken.getText());
+							builder.setOAuthAccessTokenSecret(applicationPassword);
+							Configuration configuration = builder.build();
+							TwitterFactory factory = new TwitterFactory(configuration);
+						    Util.TwitterParser.twitter = factory.getInstance();
+						    try {
+								Util.TwitterParser.setUsername("Logged in as: " + Util.TwitterParser.twitter.getScreenName()); // exception will be thrown on this line if invalid user login credentials supplied
+								Util.TwitterParser.setInitialized(true);
+								removeAll();
+								add(new MainControls()); // adds new panel
+								revalidate();
+								repaint();
+								} catch (Exception e1) {
+									lblError.setText("Invalid Login Credentials");
+									Util.TwitterParser.setInitialized(false);	
+									Util.TwitterParser.setUsername("<NOT LOGGED IN>");
+							}
+						}
+						else { // no entry for one of the text boxes
+							lblError.setText("Invalid Input");
+						}
+					}
+				});
+				add(applyBtn);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent e) {
-				if (consumerSecretPassword.getPassword().length > 0 && OAuthKey.getText().length() > 0 && accessTokenSecret.getPassword().length > 0 && accessToken.getText().length() > 0) { // checks there are inputs
-					String password = "";
-					for (char x : consumerSecretPassword.getPassword()){
-						password += x; // goes through array concatenating characters to String
-					}
-					String applicationPassword = "";
-					for (char x : accessTokenSecret.getPassword()){
-						applicationPassword += x;
-					}
-					ConfigurationBuilder builder = new ConfigurationBuilder();
-					builder.setOAuthConsumerKey(OAuthKey.getText());
-					builder.setOAuthConsumerSecret(password);
-					builder.setOAuthAccessToken(accessToken.getText());
-					builder.setOAuthAccessTokenSecret(applicationPassword);
-					Configuration configuration = builder.build();
-					TwitterFactory factory = new TwitterFactory(configuration);
-				    Util.TwitterParser.twitter = factory.getInstance();
-				    try {
-						System.out.println(Util.TwitterParser.twitter.getScreenName());
-					} catch (IllegalStateException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (TwitterException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
+			public void mousePressed(MouseEvent e) { // go back to main screen, don't change anything
 				removeAll();
 				add(new MainControls()); // adds new panel
 				revalidate();
 				repaint();
 			}
 		});
-		add(applyBtn);
-
+		add(btnCancel);
 	}
 
 }
