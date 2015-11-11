@@ -20,7 +20,25 @@ public class TweetEncryptionPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public TweetEncryptionPanel() {
-		setLayout(new GridLayout(6, 3, 0, 0));
+		setLayout(new GridLayout(8, 3, 3, 0));
+		
+		JLabel label_16 = new JLabel("");
+		add(label_16);
+		
+		JLabel label_15 = new JLabel("");
+		add(label_15);
+		
+		JLabel label_14 = new JLabel("");
+		add(label_14);
+		
+		JLabel label_11 = new JLabel("");
+		add(label_11);
+		
+		JLabel label_13 = new JLabel("");
+		add(label_13);
+		
+		JLabel label_12 = new JLabel("");
+		add(label_12);
 		JLabel lblEncryptionKey = new JLabel("Vigen\u00E8re cipher key:");
 		lblEncryptionKey.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEncryptionKey.setHorizontalAlignment(SwingConstants.RIGHT);
