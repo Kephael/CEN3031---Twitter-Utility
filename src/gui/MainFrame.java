@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -7,8 +11,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 ;
 
 public class MainFrame extends JFrame {
@@ -58,6 +60,10 @@ public class MainFrame extends JFrame {
 			}
 		});
 		mnConfigurableOptions.add(mntmTweetEncryption);
+		File settingsFile = new File (Util.TwitterParser.KEY_FILE);
+		if (settingsFile.exists() && !settingsFile.isDirectory()) {// loads API settings from file if file exists
+			Util.TwitterParser.loadAPISettingsFromFile(this); // 
+		}
 		getContentPane().add(new MainControls());
 		revalidate();
 		repaint();
