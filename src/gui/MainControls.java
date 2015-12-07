@@ -1,17 +1,23 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.TextArea;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -43,7 +49,9 @@ public class MainControls extends JPanel {
 		JLabel lblTweetMessage = new JLabel("Tweet Message:");
 		lblTweetMessage.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblTweetMessage, "cell 0 1,alignx right,aligny bottom");
-
+		
+		JButton btnSaveSearchResults = new JButton("Save Search Results");
+		
 		tweetField = new JTextField();
 		tweetField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -59,11 +67,12 @@ public class MainControls extends JPanel {
 				else {
 					lblTweetLengthStatus.setForeground(Color.black); // set color to black when under limit of 140 characters
 				}
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) { // user presses enter to submit tweet
 					if (tweetField.getText().length() <= 140) { // valid input, tweet it
 						try {
 							Status result = Util.TwitterParser.twitter.updateStatus(tweetField.getText());
 							JOptionPane.showMessageDialog(tweetField, "Tweet successful: " + result.getText());
+							tweetField.setText(""); // clear text area after successful tweet
 						} catch (TwitterException e1) {
 							JOptionPane.showMessageDialog(tweetField, "An error has occured, please check your API credentials and try again");
 							e1.printStackTrace();
@@ -80,16 +89,22 @@ public class MainControls extends JPanel {
 
 		lblTweetLengthStatus.setVerticalAlignment(SwingConstants.BOTTOM);
 		add(lblTweetLengthStatus, "cell 2 1,alignx left,aligny bottom");
-
-		TextArea infoField = new TextArea();
+		
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "cell 3 1,grow");
+		scrollPane.setPreferredSize(new Dimension(450, 151));
+		JTextArea infoField = new JTextArea();
+		infoField.setLineWrap(true);
+		scrollPane.setViewportView(infoField);
 		infoField.setEditable(false);
-		add(infoField, "cell 3 1,alignx left,growy");
-
+		if (!Util.TwitterParser.lastSearchResults.isEmpty()) { // restore previous search results if they are available
+			infoField.setText(Util.TwitterParser.lastSearchResults);
+		}
 		JLabel lblSearchLabel = new JLabel("Search:");
 		lblSearchLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblSearchLabel, "cell 0 2,alignx right,aligny center");
 
-		JSlider searchResultsNumberSlider = new JSlider();
+		searchResultsNumberSlider = new JSlider();
 		searchResultsNumberSlider.setMinorTickSpacing(5);
 		searchResultsNumberSlider.setValue(100);
 		searchResultsNumberSlider.setMajorTickSpacing(20);
@@ -100,12 +115,18 @@ public class MainControls extends JPanel {
 
 
 		searchField = new JTextField();
-		searchField.addKeyListener(new KeyAdapter() {
+		searchField.addKeyListener(new KeyAdapter() { // adapter to submit search queries 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER){
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !searchField.getText().isEmpty()){ // user pressed enter in search box and search box is not empty
 					infoField.setText(""); // clear TextArea prior to showing search results
 					Util.TwitterParser.search(searchField.getText(), searchResultsNumberSlider.getValue(), infoField);		
+				}
+				if (!infoField.getText().isEmpty()) { // search returned result(s)
+					btnSaveSearchResults.setEnabled(true);
+				}
+				else { // search returned nothing
+					btnSaveSearchResults.setEnabled(false);
 				}
 			}
 		});
@@ -113,12 +134,30 @@ public class MainControls extends JPanel {
 		add(searchField, "cell 1 2,alignx left,aligny top");
 		searchField.setColumns(15);
 
-		JButton btnSaveSearchResults = new JButton("Save Search Results");
 		btnSaveSearchResults.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			@Override
+			public void actionPerformed(ActionEvent e) {				JFileChooser savePrompt = new JFileChooser();
+				int response = savePrompt.showOpenDialog(btnSaveSearchResults);
+				if (response == JFileChooser.APPROVE_OPTION) {
+					File file = savePrompt.getSelectedFile();
+					PrintWriter out = null;
+					try {
+						out = new PrintWriter(file);
+						infoField.write(out); // write infoField's search contents to the file specified by the user
+						JOptionPane.showMessageDialog(btnSaveSearchResults, "Search results written to " + file.getAbsolutePath());
+						} catch (IOException e1) {
+						JOptionPane.showMessageDialog(btnSaveSearchResults, "An I/O error has occured, check file permissions" );
+						e1.printStackTrace();
+					}
+					finally {
+						if (out != null) {
+							out.close();
+						}
+					}
+				}
 			}
 		});
-
+		
 		JButton locationMap = new JButton("Map Tweet Locations");
 		locationMap.setToolTipText("Maps a user's location for tweet which matched search query");
 		locationMap.addActionListener(new ActionListener() {
@@ -138,6 +177,9 @@ public class MainControls extends JPanel {
 			searchField.setEnabled(false);
 			tweetField.setEnabled(false);
 			locationMap.setEnabled(false);
+		}
+		if (infoField.getText().isEmpty()) { // disable save search results button if nothing in search results area
+			btnSaveSearchResults.setEnabled(false);
 		}
 	}
 }

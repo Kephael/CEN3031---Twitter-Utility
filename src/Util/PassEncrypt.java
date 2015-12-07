@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
-import java.security.SecureRandom;
 import java.util.Properties;
 
 import javax.crypto.Cipher;
@@ -28,12 +27,6 @@ public class PassEncrypt {
 
 	/**Master Password for PBE */
 	private static final byte[] PASSKEY = "Miester9000@30Hz".getBytes();
-
-	/**Salt byte array for encoding and decoding*/
-	private static byte[] salt = new byte[8];
-
-	/**Generates random byte values*/
-	private static SecureRandom secureRandGen;
 
 	/*Output stream*/
 	private static FileOutputStream output;

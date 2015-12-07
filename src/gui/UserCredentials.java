@@ -18,6 +18,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class UserCredentials extends JPanel {
+	private static final long serialVersionUID = 8966596463626120630L;
 	private JTextField OAuthKey;
 	private JPasswordField consumerSecretPassword;
 	private JTextField accessToken;
