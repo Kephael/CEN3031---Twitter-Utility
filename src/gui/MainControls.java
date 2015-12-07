@@ -68,18 +68,17 @@ public class MainControls extends JPanel {
 					lblTweetLengthStatus.setForeground(Color.black); // set color to black when under limit of 140 characters
 				}
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) { // user presses enter to submit tweet
-					if (tweetField.getText().length() <= 140) { // valid input, tweet it
+					if (tweetField.getText().length() <= 140 && !tweetField.getText().isEmpty()) { // valid input, tweet it
 						try {
 							Status result = Util.TwitterParser.twitter.updateStatus(tweetField.getText());
 							JOptionPane.showMessageDialog(tweetField, "Tweet successful: " + result.getText());
 							tweetField.setText(""); // clear text area after successful tweet
 						} catch (TwitterException e1) {
-							JOptionPane.showMessageDialog(tweetField, "An error has occured, please check your API credentials and try again");
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(tweetField, "An error has occured, please check your API credentials and Tweet Message and try again");
 						}					
 					}
 					else {
-						JOptionPane.showMessageDialog(tweetField, "Your Tweet message is too long, 140 characters is the max length.");
+						JOptionPane.showMessageDialog(tweetField, "Your Tweet message is invalid, 140 characters is the max length and an input is required.");
 					}
 				}
 			}
@@ -121,6 +120,9 @@ public class MainControls extends JPanel {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !searchField.getText().isEmpty()){ // user pressed enter in search box and search box is not empty
 					infoField.setText(""); // clear TextArea prior to showing search results
 					Util.TwitterParser.search(searchField.getText(), searchResultsNumberSlider.getValue(), infoField);		
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && searchField.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(searchField, "Your search message is invalid, please enter an input");
 				}
 				if (!infoField.getText().isEmpty()) { // search returned result(s)
 					btnSaveSearchResults.setEnabled(true);

@@ -14,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 ;
 
 public class MainFrame extends JFrame {
-
+	private static final long serialVersionUID = -8026416994513756565L;
 	private static JPanel currentPanel;
 
 	/**

@@ -53,12 +53,12 @@ public class TwitterParser {
 	public static ArrayList<GeoLocation> search(String searchMsg, int limit, JTextArea infoField)  {
 		ArrayList<GeoLocation> locations = new ArrayList<GeoLocation>();
 		Query query = new Query(searchMsg);
-		query.setCount(limit); // 100 is max supported by library
+		query.setCount(limit); // 100 is max supported by library, an input of 0 seems to be ignored
 		try {
 			QueryResult result = twitter.search(query);
 			List<Status> results = result.getTweets();
 			StringBuilder buildLast = new StringBuilder();
-			for (int i = 0; i < results.size(); i++ ) { // do not exceed specified limit or actual number of results
+			for (int i = 0; i < results.size() && i < limit; i++ ) { // do not exceed specified limit or actual number of results
 				Status text = results.get(i);
 				String output = "@" + text.getUser().getScreenName() + " " + text.getText() + " Language: " + text.getLang() + "\n\n"; // Displays username, text, location, language and leaves blank space for additional tweets				
 				locations.add(text.getGeoLocation()); // retrieves and stores actual GeoLocation (latitude and longitude data when available
