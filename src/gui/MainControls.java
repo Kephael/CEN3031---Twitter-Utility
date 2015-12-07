@@ -34,11 +34,11 @@ public class MainControls extends JPanel {
 
 	// Creates the panel.
 	public MainControls() {
-		setBounds(0, 0, 853, 370);
+		setBounds(0, 0, 840, 316);
 		setLayout(new MigLayout("", "[120px][150px][75px][]", "[14px][185px][20px][]"));
 
 		JLabel lblUsername = new JLabel("");
-		add(lblUsername, "cell 0 0");
+		add(lblUsername, "cell 0 0,alignx right");
 		lblUsername.setText(Util.TwitterParser.getUsername()); // displays username in upper left hand corner
 		JLabel lblTweetLengthStatus = new JLabel("0 Characters"); // initial character length of empty tweet
 
@@ -73,6 +73,7 @@ public class MainControls extends JPanel {
 							Status result = Util.TwitterParser.twitter.updateStatus(tweetField.getText());
 							JOptionPane.showMessageDialog(tweetField, "Tweet successful: " + result.getText());
 							tweetField.setText(""); // clear text area after successful tweet
+							lblTweetLengthStatus.setText(tweetField.getText().length() + " Characters");
 						} catch (TwitterException e1) {
 							JOptionPane.showMessageDialog(tweetField, "An error has occured, please check your API credentials and Tweet Message and try again");
 						}					

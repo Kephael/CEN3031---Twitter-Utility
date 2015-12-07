@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
 		setContentPane(currentPanel);
 		setTitle("Twitter API Scraper");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 853, 370);
+		setBounds(0, 0, 900, 370);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
