@@ -1,24 +1,21 @@
 package gui;
 
-import javax.swing.JPanel;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JButton;
+import java.awt.Color;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-import twitter4j.conf.Configuration;
-import twitter4j.conf.ConfigurationBuilder;
-
-import javax.swing.JTextField;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import twitter4j.TwitterFactory;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class UserCredentials extends JPanel {
 	private JTextField OAuthKey;
@@ -103,6 +100,7 @@ public class UserCredentials extends JPanel {
 							builder.setOAuthAccessTokenSecret(applicationPassword);
 							Configuration configuration = builder.build();
 							TwitterFactory factory = new TwitterFactory(configuration);
+							Util.PassEncrypt.writeEncryptedSettings(configuration);
 						    Util.TwitterParser.twitter = factory.getInstance();
 						    try {
 								Util.TwitterParser.setUsername("Logged in as: " + Util.TwitterParser.twitter.getScreenName()); // exception will be thrown on this line if invalid user login credentials supplied

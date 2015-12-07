@@ -1,19 +1,20 @@
 package gui;
 
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import java.awt.Font;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class TweetEncryptionPanel extends JPanel {
+	private static final long serialVersionUID = -3145838287265232710L;
 	private JTextField textField;
 	private final ButtonGroup buttonGroupCipher = new ButtonGroup();
 	/**
