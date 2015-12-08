@@ -51,5 +51,4 @@ public class MapPanel extends JPanel {
 		});
 		add(btnMainMenu, gbc_btnMainMenu);
 	}
-
 }
