@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -8026416994513756565L;
-	private static JPanel currentPanel;
+	public static JPanel currentPanel;
 
 	/**
 	 * Create the frame.
@@ -60,9 +60,9 @@ public class MainFrame extends JFrame {
 			}
 		});
 		mnConfigurableOptions.add(mntmTweetEncryption);
-		File settingsFile = new File (Util.TwitterParser.KEY_FILE);
+		File settingsFile = new File (util.TwitterParser.KEY_FILE);
 		if (settingsFile.exists() && !settingsFile.isDirectory()) {// loads API settings from file if file exists
-			Util.TwitterParser.loadAPISettingsFromFile(this); // 
+			util.TwitterParser.loadAPISettingsFromFile(this); // 
 		}
 		getContentPane().add(new MainControls());
 		revalidate();
