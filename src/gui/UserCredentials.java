@@ -101,19 +101,19 @@ public class UserCredentials extends JPanel {
 							builder.setOAuthAccessTokenSecret(applicationPassword);
 							Configuration configuration = builder.build();
 							TwitterFactory factory = new TwitterFactory(configuration);
-							Util.PassEncrypt.writeEncryptedSettings(configuration);
-						    Util.TwitterParser.twitter = factory.getInstance();
+							util.PassEncrypt.writeEncryptedSettings(configuration);
+						    util.TwitterParser.twitter = factory.getInstance();
 						    try {
-								Util.TwitterParser.setUsername("Logged in as: " + Util.TwitterParser.twitter.getScreenName()); // exception will be thrown on this line if invalid user login credentials supplied
-								Util.TwitterParser.setInitialized(true);
+								util.TwitterParser.setUsername("Logged in as: " + util.TwitterParser.twitter.getScreenName()); // exception will be thrown on this line if invalid user login credentials supplied
+								util.TwitterParser.setInitialized(true);
 								removeAll();
 								add(new MainControls()); // adds new panel
 								revalidate();
 								repaint();
 								} catch (Exception e1) {
 									lblError.setText("Invalid Login Credentials");
-									Util.TwitterParser.setInitialized(false);	
-									Util.TwitterParser.setUsername("<NOT LOGGED IN>");
+									util.TwitterParser.setInitialized(false);	
+									util.TwitterParser.setUsername("<NOT LOGGED IN>");
 							}
 						}
 						else { // no entry for one of the text boxes
@@ -135,5 +135,4 @@ public class UserCredentials extends JPanel {
 		});
 		add(btnCancel);
 	}
-
 }

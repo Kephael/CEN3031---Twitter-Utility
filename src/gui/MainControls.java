@@ -34,12 +34,12 @@ public class MainControls extends JPanel {
 
 	// Creates the panel.
 	public MainControls() {
-		setBounds(0, 0, 853, 370);
+		setBounds(0, 0, 845, 316);
 		setLayout(new MigLayout("", "[120px][150px][75px][]", "[14px][185px][20px][]"));
 
 		JLabel lblUsername = new JLabel("");
-		add(lblUsername, "cell 0 0");
-		lblUsername.setText(Util.TwitterParser.getUsername()); // displays username in upper left hand corner
+		add(lblUsername, "cell 0 0,alignx right");
+		lblUsername.setText(util.TwitterParser.getUsername()); // displays username in upper left hand corner
 		JLabel lblTweetLengthStatus = new JLabel("0 Characters"); // initial character length of empty tweet
 
 		JLabel lblSearchResults = new JLabel("Search Results:");
@@ -51,7 +51,11 @@ public class MainControls extends JPanel {
 		add(lblTweetMessage, "cell 0 1,alignx right,aligny bottom");
 		
 		JButton btnSaveSearchResults = new JButton("Save Search Results");
-		
+		JButton locationMap = new JButton("Map Tweet Locations");
+		if (util.TwitterParser.location == null || util.TwitterParser.location.isEmpty()) { // no locations or location data is empty (previous had location data)
+		locationMap.setEnabled(false);
+		}
+
 		tweetField = new JTextField();
 		tweetField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -68,18 +72,18 @@ public class MainControls extends JPanel {
 					lblTweetLengthStatus.setForeground(Color.black); // set color to black when under limit of 140 characters
 				}
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) { // user presses enter to submit tweet
-					if (tweetField.getText().length() <= 140) { // valid input, tweet it
+					if (tweetField.getText().length() <= 140 && !tweetField.getText().isEmpty()) { // valid input, tweet it
 						try {
-							Status result = Util.TwitterParser.twitter.updateStatus(tweetField.getText());
+							Status result = util.TwitterParser.twitter.updateStatus(tweetField.getText());
 							JOptionPane.showMessageDialog(tweetField, "Tweet successful: " + result.getText());
 							tweetField.setText(""); // clear text area after successful tweet
+							lblTweetLengthStatus.setText(tweetField.getText().length() + " Characters");
 						} catch (TwitterException e1) {
-							JOptionPane.showMessageDialog(tweetField, "An error has occured, please check your API credentials and try again");
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(tweetField, "An error has occured, please check your API credentials and Tweet Message and try again");
 						}					
 					}
 					else {
-						JOptionPane.showMessageDialog(tweetField, "Your Tweet message is too long, 140 characters is the max length.");
+						JOptionPane.showMessageDialog(tweetField, "Your Tweet message is invalid, 140 characters is the max length and an input is required.");
 					}
 				}
 			}
@@ -97,8 +101,8 @@ public class MainControls extends JPanel {
 		infoField.setLineWrap(true);
 		scrollPane.setViewportView(infoField);
 		infoField.setEditable(false);
-		if (!Util.TwitterParser.lastSearchResults.isEmpty()) { // restore previous search results if they are available
-			infoField.setText(Util.TwitterParser.lastSearchResults);
+		if (!util.TwitterParser.lastSearchResults.isEmpty()) { // restore previous search results if they are available
+			infoField.setText(util.TwitterParser.lastSearchResults);
 		}
 		JLabel lblSearchLabel = new JLabel("Search:");
 		lblSearchLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -120,7 +124,16 @@ public class MainControls extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !searchField.getText().isEmpty()){ // user pressed enter in search box and search box is not empty
 					infoField.setText(""); // clear TextArea prior to showing search results
-					Util.TwitterParser.search(searchField.getText(), searchResultsNumberSlider.getValue(), infoField);		
+					util.TwitterParser.search(searchField.getText(), searchResultsNumberSlider.getValue(), infoField);	
+					if (util.TwitterParser.location != null && !util.TwitterParser.location.isEmpty()) { // location data exists
+						locationMap.setEnabled(true);
+					}
+					else { // no location data, disable mapping button
+						locationMap.setEnabled(false);
+					}
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER && searchField.getText().isEmpty()) // empty search query
+				{
+					JOptionPane.showMessageDialog(searchField, "Your search message is invalid, please enter an input");
 				}
 				if (!infoField.getText().isEmpty()) { // search returned result(s)
 					btnSaveSearchResults.setEnabled(true);
@@ -136,7 +149,8 @@ public class MainControls extends JPanel {
 
 		btnSaveSearchResults.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {				JFileChooser savePrompt = new JFileChooser();
+			public void actionPerformed(ActionEvent e) {				
+				JFileChooser savePrompt = new JFileChooser();
 				int response = savePrompt.showOpenDialog(btnSaveSearchResults);
 				if (response == JFileChooser.APPROVE_OPTION) {
 					File file = savePrompt.getSelectedFile();
@@ -158,10 +172,14 @@ public class MainControls extends JPanel {
 			}
 		});
 		
-		JButton locationMap = new JButton("Map Tweet Locations");
 		locationMap.setToolTipText("Maps a user's location for tweet which matched search query");
 		locationMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				MapPanel map = new MapPanel();
+				removeAll(); // removes existing panel
+				add(map); // adds new map
+				revalidate();
+				repaint();
 			}
 		});
 		add(locationMap, "flowx,cell 3 2,alignx right,aligny top");
@@ -173,7 +191,7 @@ public class MainControls extends JPanel {
 		add(lblMaximumSearchResults, "cell 0 3,alignx right,aligny center");
 
 		add(searchResultsNumberSlider, "cell 1 3,alignx left,aligny top");
-		if (!Util.TwitterParser.isInitialized()) { // disable features if not logged into Twitter API 
+		if (!util.TwitterParser.isInitialized()) { // disable features if not logged into Twitter API 
 			searchField.setEnabled(false);
 			tweetField.setEnabled(false);
 			locationMap.setEnabled(false);

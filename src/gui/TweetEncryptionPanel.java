@@ -95,9 +95,7 @@ public class TweetEncryptionPanel extends JPanel {
 		JLabel label_9 = new JLabel("");
 		add(label_9);
 		
-		JLabel label_10 = new JLabel("");
-		add(label_10);
-		
+	
 		JButton btnApply = new JButton("Apply");
 		btnApply.addMouseListener(new MouseAdapter() {
 			@Override
@@ -109,5 +107,17 @@ public class TweetEncryptionPanel extends JPanel {
 			}
 		});
 		add(btnApply);
+
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) { // go back to main screen, don't change anything
+				removeAll();
+				add(new MainControls()); // adds new panel
+				revalidate();
+				repaint();
+			}
+		});
+		add(btnCancel);
 	}
 }

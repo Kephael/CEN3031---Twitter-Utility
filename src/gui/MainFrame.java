@@ -14,8 +14,8 @@ import javax.swing.border.EmptyBorder;
 ;
 
 public class MainFrame extends JFrame {
-
-	private static JPanel currentPanel;
+	private static final long serialVersionUID = -8026416994513756565L;
+	public static JPanel currentPanel;
 
 	/**
 	 * Create the frame.
@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
 		setContentPane(currentPanel);
 		setTitle("Twitter API Scraper");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 853, 370);
+		setBounds(0, 0, 900, 370);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -60,9 +60,9 @@ public class MainFrame extends JFrame {
 			}
 		});
 		mnConfigurableOptions.add(mntmTweetEncryption);
-		File settingsFile = new File (Util.TwitterParser.KEY_FILE);
+		File settingsFile = new File (util.TwitterParser.KEY_FILE);
 		if (settingsFile.exists() && !settingsFile.isDirectory()) {// loads API settings from file if file exists
-			Util.TwitterParser.loadAPISettingsFromFile(this); // 
+			util.TwitterParser.loadAPISettingsFromFile(this); // 
 		}
 		getContentPane().add(new MainControls());
 		revalidate();

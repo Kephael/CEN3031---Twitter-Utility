@@ -1,4 +1,4 @@
-package Util;
+package util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,7 +32,7 @@ public class PassEncrypt {
 	private static FileOutputStream output;
 
 	/*Uses text file for testing purposes*/
-	private static File file = new File(Util.TwitterParser.KEY_FILE);
+	private static File file = new File(util.TwitterParser.KEY_FILE);
 
 
 	/**
